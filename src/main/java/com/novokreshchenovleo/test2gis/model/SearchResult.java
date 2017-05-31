@@ -87,16 +87,6 @@ public class SearchResult implements Serializable {
         private String lat;
         private String type;
 
-        public String getFirmId() { return firmId; }
-        public String getHash() { return hash; }
-        public String getTitle() { return title; }
-        public String getText() { return text; }
-        public String getFasWarning() { return fasWarning; }
-        public String getFasWarningMicroComment() { return fasWarningMicroComment; }
-        public String getLon() { return lon; }
-        public String getLat() { return lat; }
-        public String getType() { return type; }
-
         @Override
         public String toString() {
             return "Advert{" +
@@ -161,58 +151,6 @@ public class SearchResult implements Serializable {
             return id;
         }
 
-        public String getLon() {
-            return lon;
-        }
-
-        public String getLat() {
-            return lat;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public FirmGroup getFirmGroup() {
-            return firmGroup;
-        }
-
-        public Integer getDist() {
-            return dist;
-        }
-
-        public String getHash() {
-            return hash;
-        }
-
-        public String getCityName() {
-            return cityName;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public String[] getRubrics() {
-            return rubrics;
-        }
-
-        public Integer getReviewsCount() {
-            return reviewsCount;
-        }
-
-        public String getMicroComment() {
-            return microComment;
-        }
-
-        public String getFasWarning() {
-            return fasWarning;
-        }
-
-        public String getFasWarningArticle() {
-            return fasWarningArticle;
-        }
-
         @Override
         public String toString() {
             return "Result{" +
@@ -247,35 +185,6 @@ public class SearchResult implements Serializable {
                 ", results=" + Arrays.toString(results) +
                 '}';
     }
-
-    public String getApiVersion() {
-        return apiVersion;
-    }
-
-    public String getResponseCode() {
-        return responseCode;
-    }
-
-    public String getWhat() {
-        return what;
-    }
-
-    public String getWhere() {
-        return where;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public DidYouMean getDidYouMean() {
-        return didYouMean;
-    }
-
-    public Advert[] getAdvertising() {
-        return advertising;
-    }
-
     public Result[] getResults() {
         return results;
     }
