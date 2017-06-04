@@ -1,0 +1,15 @@
+search: http://catalog.api.2gis.ru/search
+profile: http://catalog.api.2gis.ru/profile
+version: 1.3
+#specify access code for 2gis api
+key: ruuxah6217
+#number of threads in pool that makes requests
+threads: 10
+#content type and charset
+content: text/html;charset=koi8-r
+cities:
+  - Новосибирск
+  - Омск
+  - Томск
+  - Кемерово
+  - Новокузнецк

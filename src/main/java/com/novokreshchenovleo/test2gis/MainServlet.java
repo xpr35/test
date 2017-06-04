@@ -6,6 +6,8 @@ import com.novokreshchenovleo.test2gis.model.Place;
 import com.novokreshchenovleo.test2gis.model.Profile;
 import com.novokreshchenovleo.test2gis.model.SearchResult;
 import com.novokreshchenovleo.test2gis.service.RequestService;
+import com.novokreshchenovleo.test2gis.util.Configuration;
+import com.novokreshchenovleo.test2gis.util.ConfigurationManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -20,7 +22,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -30,12 +31,13 @@ import java.util.concurrent.Future;
 public class MainServlet extends HttpServlet {
 
     private static final Logger log = LogManager.getLogger(MainServlet.class);
+    private static final Configuration conf = ConfigurationManager.getConfiguration("/tmp/config.yml");
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=koi8-r");
-        PrintWriter printWriter = resp.getWriter();
+        resp.setContentType(conf.getContent());
 
+        PrintWriter printWriter = resp.getWriter();
         String category = req.getParameter("category");
         if (category == null) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "category parameter is required");
@@ -43,28 +45,25 @@ public class MainServlet extends HttpServlet {
             return;
         }
 
-        RequestService requestService = new RequestService(10, 5);
+        RequestService requestService = new RequestService(conf.getThreads(), conf.getKey(), conf.getVersion());
 
-        ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Новосибирск", "Омск", "Томск", "Кемерово", "Новокузнецк"));
+        ArrayList<String> cities = new ArrayList<String>(Arrays.asList(conf.getCities()));
         List<Place> places = new CopyOnWriteArrayList<Place>();
 
 
         ArrayList<Future<SearchResult>> futureArrayList = new ArrayList<Future<SearchResult>>();
         for (String city : cities) {
-            futureArrayList.add(requestService.getSearchResult(category, city));
+            futureArrayList.add(requestService.getSearchResult(category, city, conf.getSearch()));
         }
 
         ArrayList<Future<Profile>> futures = new ArrayList<Future<Profile>>();
         for (Future<SearchResult> result : futureArrayList) {
             try {
-                SearchResult searchResult = result.get();
-                if (searchResult.getResults() != null) {
-                    futures.add(requestService.getProfile(searchResult.getResults()[0].getId()));
+                SearchResult.Result[] searchResults = result.get().getResults();
+                if (searchResults != null) {
+                    futures.add(requestService.getProfile(searchResults[0].getId(), conf.getProfile()));
                 }
-            } catch (ExecutionException e) {
-                log.error(e.getMessage());
-
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }
@@ -73,10 +72,7 @@ public class MainServlet extends HttpServlet {
             try {
                 Profile profile = futureProfile.get();
                 places.add(new Place(profile.getName(), profile.getCityName(), profile.getAddress(), profile.getRating()));
-            } catch (ExecutionException e) {
-                log.error(e.getMessage());
-
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }

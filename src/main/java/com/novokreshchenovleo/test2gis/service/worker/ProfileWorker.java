@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.novokreshchenovleo.test2gis.model.Profile;
 import com.novokreshchenovleo.test2gis.service.Request;
 
-import java.net.URL;
 import java.util.concurrent.Callable;
 
 /**
@@ -12,15 +11,20 @@ import java.util.concurrent.Callable;
  */
 public class ProfileWorker extends Request implements Callable {
     private String profileId;
+    private String urlString;
+    private String key;
+    private String apiVersion;
 
-    public ProfileWorker(String profileId, Integer maxAttemptsNumber) {
+    public ProfileWorker(String profileId, String urlString, String key, String apiVersion) {
         this.profileId = profileId;
-        this.maxAttemptsNumber = maxAttemptsNumber;
+        this.urlString = urlString;
+        this.key = key;
+        this.apiVersion = apiVersion;
     }
 
     public Profile call() throws Exception {
-        URL url = new URL("http://catalog.api.2gis.ru/profile?key=ruuxah6217&version=1.3&id="+this.profileId);
-        String response = super.get(url, maxAttemptsNumber);
+        String url = urlString + "?key=" + key + "&version=" + apiVersion + "&id=" + this.profileId;
+        String response = super.get(url);
         return new Gson().fromJson(response, Profile.class);
     }
 }

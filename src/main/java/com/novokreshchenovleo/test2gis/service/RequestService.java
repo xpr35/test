@@ -14,18 +14,20 @@ import java.util.concurrent.Future;
  */
 public class RequestService {
     private ExecutorService executorService;
-    private Integer maxAttemptNumber;
+    private String apiVersion;
+    private String key;
 
-    public RequestService(Integer threadNumber, Integer maxAttemptNumber) {
+    public RequestService(Integer threadNumber, String key, String apiVersion) {
         this.executorService = Executors.newFixedThreadPool(threadNumber);
-        this.maxAttemptNumber = maxAttemptNumber;
+        this.key = key;
+        this.apiVersion = apiVersion;
     }
 
-    public Future<SearchResult> getSearchResult(String category, String cityName) {
-        return executorService.submit(new SearchWorker(category, cityName, maxAttemptNumber));
+    public Future<SearchResult> getSearchResult(String category, String cityName, String url) {
+        return executorService.submit(new SearchWorker(category, cityName, url, key, apiVersion));
     }
 
-    public Future<Profile> getProfile(String profileId) {
-        return executorService.submit(new ProfileWorker(profileId, maxAttemptNumber));
+    public Future<Profile> getProfile(String profileId, String url) {
+        return executorService.submit(new ProfileWorker(profileId, url, key, apiVersion));
     }
 }
