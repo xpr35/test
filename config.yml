@@ -2,7 +2,7 @@ search: http://catalog.api.2gis.ru/search
 profile: http://catalog.api.2gis.ru/profile
 version: 1.3
 #specify access code for 2gis api
-key: ruuxah6217
+key: YOUR_ACCESS_KEY
 #number of threads in pool that makes requests
 threads: 10
 #content type and charset
