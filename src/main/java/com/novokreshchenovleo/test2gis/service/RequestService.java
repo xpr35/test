@@ -2,8 +2,8 @@ package com.novokreshchenovleo.test2gis.service;
 
 import com.novokreshchenovleo.test2gis.model.Profile;
 import com.novokreshchenovleo.test2gis.model.SearchResult;
-import com.novokreshchenovleo.test2gis.service.worker.ProfileWorker;
-import com.novokreshchenovleo.test2gis.service.worker.SearchWorker;
+import com.novokreshchenovleo.test2gis.service.worker.implementation.ProfileWorkerImpl;
+import com.novokreshchenovleo.test2gis.service.worker.implementation.SearchWorkerImpl;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,10 +24,10 @@ public class RequestService {
     }
 
     public Future<SearchResult> getSearchResult(String category, String cityName, String url) {
-        return executorService.submit(new SearchWorker(category, cityName, url, key, apiVersion));
+        return executorService.submit(new SearchWorkerImpl(category, cityName, url, key, apiVersion));
     }
 
     public Future<Profile> getProfile(String profileId, String url) {
-        return executorService.submit(new ProfileWorker(profileId, url, key, apiVersion));
+        return executorService.submit(new ProfileWorkerImpl(profileId, url, key, apiVersion));
     }
 }

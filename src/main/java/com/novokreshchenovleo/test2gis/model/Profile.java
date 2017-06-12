@@ -31,6 +31,8 @@ public class Profile implements Serializable {
         return name;
     }
 
+    public void setName(String name) { this.name = name; }
+
     private String name;
 
     private Firm firm;
@@ -39,14 +41,6 @@ public class Profile implements Serializable {
         private String id;
         @SerializedName("filials_count")
         private Integer filialsCount;
-
-        public String getId() {
-            return id;
-        }
-
-        public Integer getFilialsCount() {
-            return filialsCount;
-        }
 
         @Override
         public String toString() {
@@ -67,12 +61,16 @@ public class Profile implements Serializable {
         return cityName;
     }
 
+    public void setCityName(String cityName) { this.cityName = cityName; }
+
     @SerializedName("city_name")
     private String cityName;
 
     public String getAddress() {
         return address;
     }
+
+    public void setAddress(String address) { this.address = address; }
 
     private String address;
 
@@ -162,6 +160,8 @@ public class Profile implements Serializable {
     private String[] payoptions;
 
     private String[] rubrics;
+
+    public void setRating(Float rating) { this.rating = rating; }
 
     private Float rating;
 

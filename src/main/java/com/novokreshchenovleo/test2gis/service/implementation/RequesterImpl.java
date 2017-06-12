@@ -1,5 +1,6 @@
-package com.novokreshchenovleo.test2gis.service;
+package com.novokreshchenovleo.test2gis.service.implementation;
 
+import com.novokreshchenovleo.test2gis.service.Requester;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -15,8 +16,8 @@ import static org.apache.http.HttpHeaders.USER_AGENT;
 /**
  * Created by xpres on 29/05/17.
  */
-public class Request {
-    private static final Logger log = LogManager.getLogger(Request.class);
+public class RequesterImpl implements Requester {
+    private static final Logger log = LogManager.getLogger(RequesterImpl.class);
 
     public String get(String url) throws Exception {
         HttpClient client = HttpClientBuilder.create().build();
