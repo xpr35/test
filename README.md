@@ -2,6 +2,7 @@
 + ```mvn clean install```
 
 ### deploy:
++ set 2gis api access key in `config.yml`
 + ```docker-compose build```
 + ```docker-compose up```
 
